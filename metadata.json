@@ -1,0 +1,5 @@
+{
+  "name": "TubeScript Remixer",
+  "description": "Analyze existing YouTube transcripts and remix their structure into fresh scripts for new topics using AI.",
+  "requestFramePermissions": []
+}
