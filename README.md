@@ -1,20 +1,78 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 🎬 TubeScript Remixer
 
-# Run and deploy your AI Studio app
+유튜브 대본의 구조를 분석하고, 새로운 주제로 동일한 구조의 대본을 생성하는 AI 도구입니다.
 
-This contains everything you need to run your app locally.
+## ✨ 주요 기능
 
-View your app in AI Studio: https://ai.studio/apps/drive/1nOy83hb921hHu66B6yQkIZl9p5xKykhk
+- 📊 **대본 구조 분석**: 유튜브 대본의 훅, 본론 구성, 페이싱, 리텐션 전략 분석
+- 💡 **주제 추천**: 분석된 구조에 맞는 바이럴 주제 3가지 자동 추천
+- ✍️ **대본 생성**: 선택한 주제로 동일한 구조의 새로운 대본 생성
+- 🔐 **API 키 관리**: 로컬 스토리지를 활용한 안전한 API 키 저장 (기억하기 기능)
+- 🎨 **깔끔한 UI**: 다크 모드 기반의 직관적인 인터페이스
 
-## Run Locally
+## 🚀 배포하기
 
-**Prerequisites:**  Node.js
+### Vercel로 배포
 
+1. [Vercel](https://vercel.com)에 로그인
+2. 이 저장소를 Import
+3. 배포 완료! (환경 변수 설정 불필요 - UI에서 API 키 입력)
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/nayacoo-star/myyoutube)
+
+## 💻 로컬 실행
+
+**필수 조건:** Node.js 18 이상
+
+1. **저장소 클론**
+   ```bash
+   git clone https://github.com/nayacoo-star/myyoutube.git
+   cd myyoutube
+   ```
+
+2. **의존성 설치**
+   ```bash
+   npm install
+   ```
+
+3. **개발 서버 실행**
+   ```bash
+   npm run dev
+   ```
+
+4. **브라우저에서 열기**
+   - http://localhost:5173 접속
+   - UI에서 Gemini API 키 입력 (한 번만 입력하면 저장됩니다)
+
+## 🔑 API 키 발급
+
+1. [Google AI Studio](https://aistudio.google.com/apikey)에서 무료로 발급
+2. 앱 실행 후 상단의 "Gemini API Key" 섹션에 입력
+3. "저장하기" 클릭 - 브라우저에 안전하게 보관됩니다
+
+> ⚠️ API 키는 브라우저 로컬 스토리지에만 저장되며, 서버로 전송되지 않습니다.
+
+## 📦 빌드
+
+```bash
+npm run build
+```
+
+빌드된 파일은 `dist` 폴더에 생성됩니다.
+
+## 🛠️ 기술 스택
+
+- **Frontend**: React 19 + TypeScript
+- **Build Tool**: Vite
+- **AI**: Google Gemini 2.5 Flash
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Deployment**: Vercel
+
+## 📄 라이선스
+
+MIT License
+
+## 🤝 기여
+
+이슈와 PR을 환영합니다!

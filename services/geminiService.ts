@@ -1,11 +1,23 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { ScriptData, AnalysisResult } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+let ai: GoogleGenAI | null = null;
+
+export const initializeAI = (apiKey: string) => {
+  ai = new GoogleGenAI({ apiKey });
+};
+
+const getAI = () => {
+  if (!ai) {
+    throw new Error("API 키가 설정되지 않았습니다. API 키를 입력해주세요.");
+  }
+  return ai;
+};
 
 export const analyzeTranscript = async (transcript: string): Promise<AnalysisResult> => {
   try {
-    const response = await ai.models.generateContent({
+    const aiInstance = getAI();
+    const response = await aiInstance.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: `
         Analyze the following YouTube transcript. 
@@ -79,7 +91,8 @@ export const generateRemixedScript = async (data: ScriptData): Promise<string> =
       위 구조를 그대로 적용해서 대본을 지금 바로 작성해줘.
     `;
 
-    const response = await ai.models.generateContent({
+    const aiInstance = getAI();
+    const response = await aiInstance.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: userPrompt,
       config: {

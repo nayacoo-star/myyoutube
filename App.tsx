@@ -2,18 +2,27 @@ import React, { useState } from 'react';
 import { ScriptInput } from './components/ScriptInput';
 import { ScriptOutput } from './components/ScriptOutput';
 import { TopicSelection } from './components/TopicSelection';
+import { ApiKeyInput } from './components/ApiKeyInput';
 import { Button } from './components/Button';
-import { analyzeTranscript, generateRemixedScript } from './services/geminiService';
+import { analyzeTranscript, generateRemixedScript, initializeAI } from './services/geminiService';
 import { LoadingState, AppStep, AnalysisResult } from './types';
 import { Wand2, Youtube, ArrowRight, Search } from 'lucide-react';
 
 export default function App() {
+  const [apiKey, setApiKey] = useState('');
   const [originalScript, setOriginalScript] = useState('');
   const [newTopic, setNewTopic] = useState('');
   const [loadingState, setLoadingState] = useState<LoadingState>(LoadingState.IDLE);
   const [appStep, setAppStep] = useState<AppStep>(AppStep.INPUT);
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [resultScript, setResultScript] = useState('');
+
+  const handleApiKeySet = (key: string) => {
+    setApiKey(key);
+    if (key) {
+      initializeAI(key);
+    }
+  };
 
   // Step 1: Analyze Transcript
   const handleAnalyze = async () => {
@@ -93,6 +102,9 @@ export default function App() {
           {/* Left Column: Interaction Area */}
           <div className="flex flex-col gap-6 h-full overflow-y-auto pb-10 lg:pb-0 pr-1 custom-scroll">
             
+            {/* API Key Input */}
+            <ApiKeyInput onApiKeySet={handleApiKeySet} />
+            
             {/* Input Section */}
             <div className={`flex-grow flex flex-col transition-all duration-500 ${appStep === AppStep.INPUT ? 'min-h-[400px]' : 'h-[200px] flex-grow-0'}`}>
               <ScriptInput 
@@ -110,14 +122,18 @@ export default function App() {
                 <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5">
                    <Button 
                     onClick={handleAnalyze}
-                    disabled={!isInputValid}
+                    disabled={!isInputValid || !apiKey}
                     isLoading={loadingState === LoadingState.ANALYZING}
                     className="w-full h-12 text-base shadow-indigo-900/20"
                     icon={<Search className="w-5 h-5" />}
                   >
                     {loadingState === LoadingState.ANALYZING ? '대본 분석 중...' : '구조 분석 및 주제 추천받기'}
                   </Button>
-                  {!isInputValid && (
+                  {!apiKey ? (
+                    <p className="text-center text-xs text-amber-500/80 mt-2">
+                      먼저 API 키를 입력해주세요.
+                    </p>
+                  ) : !isInputValid && (
                     <p className="text-center text-xs text-zinc-600 mt-2">
                       분석을 시작하려면 대본을 입력해주세요 (최소 50자).
                     </p>
